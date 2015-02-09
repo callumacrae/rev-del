@@ -1,0 +1,38 @@
+{
+  "name": "rev-del",
+  "version": "1.0.0",
+  "description": "Delete replaced files from an old manifest",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/callumacrae/rev-del"
+  },
+  "keywords": [
+    "gulpplugin",
+    "gulpfriendly",
+    "rev",
+    "revision",
+    "hash",
+    "version",
+    "versioning"
+  ],
+  "author": "Callum Macrae <callum@macr.ae>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/callumacrae/rev-del/issues"
+  },
+  "homepage": "https://github.com/callumacrae/rev-del",
+  "dependencies": {
+    "del": "^1.1.1",
+    "lodash": "^3.1.0",
+    "mocha": "^2.1.0",
+    "should": "^4.6.5",
+    "through2": "^0.6.3"
+  },
+  "devDependencies": {
+    "vinyl": "^0.4.6"
+  }
+}
