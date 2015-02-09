@@ -1,5 +1,6 @@
 'use strict';
 
+var path = require('path');
 var _ = require('lodash');
 var File = require('vinyl');
 var revDel = require('./');
@@ -57,7 +58,7 @@ it('should handle streams', function (cb) {
 
 	stream.on('data', function (file) {
 		file.revDeleted.length.should.equal(2);
-		file.revDeleted.should.eql(['foo-abc.js', 'world']);
+		file.revDeleted.should.eql(getFull(['foo-abc.js', 'world']));
 
 		cb();
 	});
@@ -77,7 +78,7 @@ it('should get the file path from gulp-rev', function (cb) {
 
 	stream.on('data', function (file) {
 		file.revDeleted.length.should.equal(2);
-		file.revDeleted.should.eql(['foo-abc.js', 'world']);
+		file.revDeleted.should.eql(getFull(['foo-abc.js', 'world']));
 
 		cb();
 	});
@@ -88,3 +89,9 @@ it('should get the file path from gulp-rev', function (cb) {
 	}));
 	stream.end();
 });
+
+function getFull(files) {
+	return _.map(files, function (file) {
+		return path.join(process.cwd(), file);
+	});
+}

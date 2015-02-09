@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var path = require('path');
 var _ = require('lodash');
 var del = require('del');
 var through = require('through2');
@@ -17,11 +18,22 @@ function revDel(options, cb) {
 		var oldManifest = getManifest(options.oldManifest);
 		var newManifest = getManifest(options.newManifest);
 		var oldFiles = getChanged(oldManifest, newManifest);
+
+		if (options.base) {
+			oldFiles = _.map(oldFiles, function (file) {
+				return path.join(options.base, file);
+			});
+		}
+
 		return options.delFn(oldFiles, cb);
 	}
 
 	// newManifest isn't specified, return a stream
 	return through.obj(function (file, enc, cb) {
+		if (!options.base && file.base) {
+			options.base = file.base;
+		}
+
 		if (options.oldManifest) {
 			options.oldManifest = getManifest(options.oldManifest);
 		} else {

@@ -83,6 +83,9 @@ gulp.task('default', function () {
 });
 ```
 
+You can also specify the `base` as one of the options. Again, you don't need to
+do this if you've given it to `rev.manifest()`!
+
 ## License
 
 Released under the MIT license.
