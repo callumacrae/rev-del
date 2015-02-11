@@ -22,7 +22,7 @@ var newManifest = {
 var manifests = {
 	oldManifest: oldManifest,
 	newManifest: newManifest,
-	delFn: function (files, cb) {
+	delFn: function (files, options, cb) {
 		cb(null, files);
 	}
 };
@@ -51,7 +51,7 @@ it('should read from JSON files', function (cb) {
 it('should handle streams', function (cb) {
 	var stream = revDel({
 		oldManifest: 'test.json',
-		delFn: function (files, cb) {
+		delFn: function (files, options, cb) {
 			cb(null, files);
 		}
 	});
@@ -71,7 +71,7 @@ it('should handle streams', function (cb) {
 
 it('should get the file path from gulp-rev', function (cb) {
 	var stream = revDel({
-		delFn: function (files, cb) {
+		delFn: function (files, options, cb) {
 			cb(null, files);
 		}
 	});
