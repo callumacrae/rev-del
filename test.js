@@ -4,8 +4,7 @@ var path = require('path');
 var _ = require('lodash');
 var File = require('vinyl');
 var revDel = require('./');
-
-require('should');
+var should = require('should');
 
 var oldManifest = {
 	'foo.js': 'foo-abc.js',
@@ -88,6 +87,26 @@ it('should get the file path from gulp-rev', function (cb) {
 		contents: new Buffer(JSON.stringify(newManifest))
 	}));
 	stream.end();
+});
+
+it('should not explode when rev-manifest.json is not found', function (cb) {
+	var manifestsString = _.clone(manifests);
+	manifestsString.oldManifest = 'doesntexist.json';
+
+	// We're literally just testing that it doesn't throw an error
+	revDel(manifestsString, function () {
+		cb();
+	});
+});
+
+it('should explode when suppress is set to false says to', function () {
+	var manifestsString = _.clone(manifests);
+	manifestsString.oldManifest = 'doesntexist.json';
+	manifestsString.suppress = false;
+
+	should.throws(function () {
+		revDel(manifestsString, function () {});
+	});
 });
 
 function getFull(files) {

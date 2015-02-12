@@ -14,7 +14,8 @@ $ npm install --save-dev rev-del
 ```js
 revDel({
 	oldManifest: 'rev-manifest.json',
-	newManifest: { /* a manifest */ }
+	newManifest: { /* a manifest */ },
+	suppress: true
 }, function (err, filesDeleted) {
 	// ...
 });
@@ -24,6 +25,10 @@ The manifests can be either objects or paths to files. `oldManifest` defaults
 to "rev-manifest.json" (which is the default output for gulp-rev), and
 newManifest has no default; it's assumed that you've got it in memory, so it's
 more efficient to pass it in as an object.
+
+`suppress`, when set to false, will throw an error when rev-manifest.json
+doesn't exist. You don't normally want to change: usually, the first time you
+run your revisioning script, the manifest doesn't exist yet.
 
 ### With Gulp
 
