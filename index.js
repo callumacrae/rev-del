@@ -8,11 +8,12 @@ var through = require('through2');
 
 function revDel(options, cb) {
 	if (!_.isObject(options)) {
-		options = { oldManifest: options || 'rev-manifest.json' };
+		options = { oldManifest: options };
 	}
 
 	// Useful when testing
 	options.delFn = options.delFn || del;
+	options.dest = options.dest || '.';
 
 	options.suppress = (options.suppress !== false);
 
@@ -23,7 +24,7 @@ function revDel(options, cb) {
 
 		if (options.base) {
 			oldFiles = _.map(oldFiles, function (file) {
-				return path.join(options.base, file);
+				return path.join(options.dest || options.base, file);
 			});
 		}
 
@@ -39,7 +40,7 @@ function revDel(options, cb) {
 		if (options.oldManifest) {
 			options.oldManifest = getManifest(options.oldManifest, options.suppress);
 		} else {
-			options.oldManifest = getManifest(file.path, options.suppress);
+			options.oldManifest = getManifest(path.join(options.dest, file.path), options.suppress);
 		}
 
 		try {

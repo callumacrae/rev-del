@@ -32,7 +32,9 @@ run your revisioning script, the manifest doesn't exist yet.
 
 ### With Gulp
 
-rev-del works great with Gulp and gulp-rev:
+rev-del works great with Gulp and gulp-rev. You need to specify either `dest`
+in the options, or `base` in the manifest options—unless you're writing
+everything to the root directory.
 
 ```js
 var gulp = require('gulp');
@@ -44,7 +46,7 @@ gulp.task('default', function () {
         .pipe(rev())
         .pipe(gulp.dest('dist'))
         .pipe(rev.manifest())
-        .pipe(revDel())           // <--
+        .pipe(revDel({ dest: 'dist' }))           // <--
         .pipe(gulp.dest('dist');
 });
 ```
@@ -83,7 +85,7 @@ gulp.task('default', function () {
         .pipe(rev())
         .pipe(gulp.dest('dist'))
         .pipe(rev.manifest('my-manifest.json'))
-        .pipe(revDel())                          // <--
+        .pipe(revDel({ dest: 'dist' }))                          // <--
         .pipe(gulp.dest('dist');
 });
 ```

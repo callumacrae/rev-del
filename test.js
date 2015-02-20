@@ -57,7 +57,7 @@ it('should handle streams', function (cb) {
 
 	stream.on('data', function (file) {
 		file.revDeleted.length.should.equal(2);
-		file.revDeleted.should.eql(getFull(['foo-abc.js', 'world']));
+		file.revDeleted.should.eql(['foo-abc.js', 'world']);
 
 		cb();
 	});
@@ -77,7 +77,7 @@ it('should get the file path from gulp-rev', function (cb) {
 
 	stream.on('data', function (file) {
 		file.revDeleted.length.should.equal(2);
-		file.revDeleted.should.eql(getFull(['foo-abc.js', 'world']));
+		file.revDeleted.should.eql(['foo-abc.js', 'world']);
 
 		cb();
 	});
@@ -109,8 +109,25 @@ it('should explode when suppress is set to false says to', function () {
 	});
 });
 
-function getFull(files) {
-	return _.map(files, function (file) {
-		return path.join(process.cwd(), file);
+it('should accept dest', function (cb) {
+	var stream = revDel({
+		delFn: function (files, options, cb) {
+			cb(null, files);
+		},
+		dest: 'test',
+		oldManifest: 'test.json'
 	});
-}
+
+	stream.on('data', function (file) {
+		file.revDeleted.length.should.equal(2);
+		file.revDeleted.should.eql(['test/foo-abc.js', 'test/world']);
+
+		cb();
+	});
+
+	stream.write(new File({
+		path: 'test.json',
+		contents: new Buffer(JSON.stringify(newManifest))
+	}));
+	stream.end();
+});
