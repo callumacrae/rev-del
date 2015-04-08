@@ -93,6 +93,8 @@ gulp.task('default', function () {
 You can also specify the `base` as one of the options. Again, you don't need to
 do this if you've given it to `rev.manifest()`!
 
+You can also add `force: true` as an option. This is passed through to the underlying [del](https://github.com/sindresorhus/del#optionsforce) plugin which accepts it to allow deletion outside the current working directory. This comes in handy when you get a gulp error like 'Cannot delete files/folders outside the current working directory. Can be overriden with the `force` option.'
+
 ## License
 
 Released under the MIT license.
