@@ -47,7 +47,7 @@ gulp.task('default', function () {
         .pipe(gulp.dest('dist'))
         .pipe(rev.manifest())
         .pipe(revDel({ dest: 'dist' }))           // <--
-        .pipe(gulp.dest('dist');
+        .pipe(gulp.dest('dist'));
 });
 ```
 
@@ -64,7 +64,7 @@ gulp.task('default', function () {
         .pipe(gulp.dest('dist'))
         .pipe(rev.manifest('my-manifest.json'))
         .pipe(revDel('some-other-manifest.json'))        // <--
-        .pipe(gulp.dest('dist');
+        .pipe(gulp.dest('dist'));
 });
 ```
 
@@ -86,7 +86,7 @@ gulp.task('default', function () {
         .pipe(gulp.dest('dist'))
         .pipe(rev.manifest('my-manifest.json'))
         .pipe(revDel({ dest: 'dist' }))                          // <--
-        .pipe(gulp.dest('dist');
+        .pipe(gulp.dest('dist'));
 });
 ```
 
