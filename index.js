@@ -14,6 +14,7 @@ function revDel(options, cb) {
 	// Useful when testing
 	options.delFn = options.delFn || del;
 	options.dest = options.dest || '.';
+	options.oldManifest = options.oldManifest || path.join(options.dest, 'rev-manifest.json');
 
 	options.suppress = (options.suppress !== false);
 
