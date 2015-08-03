@@ -1,6 +1,6 @@
 {
   "name": "rev-del",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Delete replaced files from an old manifest",
   "main": "index.js",
   "scripts": {
