@@ -18,6 +18,8 @@ function revDel(options, cb) {
 	options.suppress = (options.suppress !== false);
 
 	if (options.newManifest) {
+		options.oldManifest = options.oldManifest || path.join(options.dest, 'rev-manifest.json');
+
 		var oldManifest = getManifest(options.oldManifest, options.suppress);
 		var newManifest = getManifest(options.newManifest);
 		var oldFiles = getChanged(oldManifest, newManifest);
