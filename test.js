@@ -120,7 +120,7 @@ it('should accept dest', function (cb) {
 
 	stream.on('data', function (file) {
 		file.revDeleted.length.should.equal(2);
-		file.revDeleted.should.eql(['test/foo-abc.js', 'test/world']);
+		file.revDeleted.should.eql([path.normalize('test/foo-abc.js'), path.normalize('test/world')]);
 
 		cb();
 	});
