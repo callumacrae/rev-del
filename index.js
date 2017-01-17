@@ -23,13 +23,19 @@ function revDel(options, cb) {
 		var oldManifest = getManifest(options.oldManifest, options.suppress);
 		var newManifest = getManifest(options.newManifest);
 		var oldFiles = getChanged(oldManifest, newManifest);
-
+		
 		if (options.base) {
 			oldFiles = _.map(oldFiles, function (file) {
 				return path.join(options.dest || options.base, file);
 			});
 		}
-
+		oldFiles.forEach(function(oldFile){
+			var mapPathCheck = oldFile+".map";
+			if (fs.existsSync(mapPathCheck)) {
+				oldFiles.push(mapPathCheck);
+			}
+		});
+		
 		return options.delFn(oldFiles, { force: options.force }, cb);
 	}
 
