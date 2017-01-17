@@ -29,12 +29,14 @@ function revDel(options, cb) {
 				return path.join(options.dest || options.base, file);
 			});
 		}
-		oldFiles.forEach(function(oldFile){
-			var mapPathCheck = oldFile+".map";
-			if (fs.existsSync(mapPathCheck)) {
-				oldFiles.push(mapPathCheck);
-			}
-		});
+		if(options.deleteMapExtensions){
+			oldFiles.forEach(function(oldFile){
+				var mapPathCheck = oldFile+".map";
+				if (fs.existsSync(mapPathCheck)) {
+					oldFiles.push(mapPathCheck);
+				}
+			});
+		}
 		
 		return options.delFn(oldFiles, { force: options.force }, cb);
 	}
