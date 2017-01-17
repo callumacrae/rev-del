@@ -34,6 +34,21 @@ function revDel(options, cb) {
 				var mapPathCheck = oldFile+".map";
 				if (fs.existsSync(mapPathCheck)) {
 					oldFiles.push(mapPathCheck);
+				}else{
+					var foundOrigKey = false;
+					for (var manifestKey in oldManifest) {
+				        if (oldManifest.hasOwnProperty(manifestKey) && oldManifest[manifestKey] === oldFile) {
+				            foundOrigKey = manifestKey;
+				            break;
+				        }
+				    }
+				    //if we found the key in the old manifest (file path referenced before manifest convert) and the key is no longer present
+				    if(foundOrigKey!==false && Object.keys(newManifest).indexOf(foundOrigKey)===-1){
+				    	mapPathCheck = foundOrigKey+".map";
+					    if (fs.existsSync(mapPathCheck)) {
+							oldFiles.push(mapPathCheck);
+						}
+				    }
 				}
 			});
 		}
