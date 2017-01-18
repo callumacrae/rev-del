@@ -29,6 +29,7 @@ function revDel(options, cb) {
 				return path.join(options.dest || options.base, file);
 			});
 		}
+
 		if(options.deleteMapExtensions){
 
 			var extCheckPath;
@@ -48,7 +49,7 @@ function revDel(options, cb) {
 				            break;
 				        }
 				    }
-				    
+
 				    if (foundOrigKey!==false && Object.keys(newManifest).indexOf(foundOrigKey)===-1) {
 				    	extCheckPath = path.join(options.dest || options.base, foundOrigKey+'.map');
 				    	try {
@@ -85,6 +86,7 @@ function revDel(options, cb) {
 			if (err) {
 				return cb(err);
 			}
+			
 			file.revDeleted = filesDeleted;
 			cb(null, file);
 		});
