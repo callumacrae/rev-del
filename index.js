@@ -23,34 +23,40 @@ function revDel(options, cb) {
 		var oldManifest = getManifest(options.oldManifest, options.suppress);
 		var newManifest = getManifest(options.newManifest);
 		var oldFiles = getChanged(oldManifest, newManifest);
-		
+
 		if (options.base) {
 			oldFiles = _.map(oldFiles, function (file) {
 				return path.join(options.dest || options.base, file);
 			});
 		}
 		if(options.deleteMapExtensions){
-			oldFiles.forEach(function(oldFile){
-				var mapPathCheck = oldFile+".map";
-				if (fs.existsSync(mapPathCheck)) {
-					oldFiles.push(mapPathCheck);
-				}else{
-					var oldFileCheck = path.relative(options.dest || options.base,oldFile);
+
+			var extCheckPath;
+
+			oldFiles.forEach(function (oldFile){
+				extCheckPath = oldFile+'.map';
+				try {
+		    		fs.statSync(extCheckPath);
+		    		oldFiles.push(extCheckPath);
+		    	} catch (errA){
+		    		var oldFileCheck = path.relative(options.dest || options.base, oldFile);
 					var foundOrigKey = false;
+
 					for (var manifestKey in oldManifest) {
 				        if (oldManifest.hasOwnProperty(manifestKey) && oldManifest[manifestKey] === oldFileCheck) {
 				            foundOrigKey = manifestKey;
 				            break;
 				        }
 				    }
-				    //if we found the key in the old manifest (file path referenced before manifest convert) and the key is no longer present
-				    if(foundOrigKey!==false && Object.keys(newManifest).indexOf(foundOrigKey)===-1){
-				    	mapPathCheck = path.join(options.dest || options.base, foundOrigKey+".map");
-					    if (fs.existsSync(mapPathCheck)) {
-							oldFiles.push(mapPathCheck);
-						}
+				    
+				    if (foundOrigKey!==false && Object.keys(newManifest).indexOf(foundOrigKey)===-1) {
+				    	extCheckPath = path.join(options.dest || options.base, foundOrigKey+'.map');
+				    	try {
+				    		fs.statSync(extCheckPath);
+				    		oldFiles.push(extCheckPath);
+				    	} catch (errB){}
 				    }
-				}
+		    	}
 			});
 		}
 		
@@ -79,7 +85,6 @@ function revDel(options, cb) {
 			if (err) {
 				return cb(err);
 			}
-
 			file.revDeleted = filesDeleted;
 			cb(null, file);
 		});
