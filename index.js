@@ -52,10 +52,7 @@ function revDel(options, cb) {
 
 				    if (foundOrigKey!==false && Object.keys(newManifest).indexOf(foundOrigKey)===-1) {
 				    	extCheckPath = path.join(options.dest || options.base, foundOrigKey+'.map');
-				    	try {
-				    		fs.statSync(extCheckPath);
-				    		oldFiles.push(extCheckPath);
-				    	} catch (errB){}
+				    	oldFiles.push(extCheckPath);
 				    }
 		    	}
 			});
