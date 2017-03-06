@@ -15,7 +15,8 @@ $ npm install --save-dev rev-del
 revDel({
 	oldManifest: 'rev-manifest.json',
 	newManifest: { /* a manifest */ },
-	suppress: true
+	suppress: true, 
+	deleteMapExtensions: true
 }, function (err, filesDeleted) {
 	// ...
 });

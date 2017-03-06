@@ -30,6 +30,34 @@ function revDel(options, cb) {
 			});
 		}
 
+		if(options.deleteMapExtensions){
+
+			var extCheckPath;
+
+			oldFiles.forEach(function (oldFile){
+				extCheckPath = oldFile+'.map';
+				try {
+		    		fs.statSync(extCheckPath);
+		    		oldFiles.push(extCheckPath);
+		    	} catch (errA){
+		    		var oldFileCheck = path.relative(options.dest || options.base, oldFile);
+					var foundOrigKey = false;
+
+					for (var manifestKey in oldManifest) {
+				        if (oldManifest.hasOwnProperty(manifestKey) && oldManifest[manifestKey] === oldFileCheck) {
+				            foundOrigKey = manifestKey;
+				            break;
+				        }
+				    }
+
+				    if (foundOrigKey!==false && Object.keys(newManifest).indexOf(foundOrigKey)===-1) {
+				    	extCheckPath = path.join(options.dest || options.base, foundOrigKey+'.map');
+				    	oldFiles.push(extCheckPath);
+				    }
+		    	}
+			});
+		}
+		
 		return options.delFn(oldFiles, { force: options.force }, cb);
 	}
 
@@ -55,7 +83,7 @@ function revDel(options, cb) {
 			if (err) {
 				return cb(err);
 			}
-
+			
 			file.revDeleted = filesDeleted;
 			cb(null, file);
 		});
