@@ -91,9 +91,9 @@ function revDel(options, cb) {
 }
 
 function getChanged(oldObject, newObject) {
-	return _.reduce(oldObject, function (result, fingerprinted, path) {
-		if (newObject[path] !== fingerprinted) {
-			result.push(fingerprinted);
+	return _.reduce(newObject, function (result, fingerprinted, path) {
+		if (oldObject[fingerprinted] !== path) {
+			result.push(path);
 		}
 
 		return result;
