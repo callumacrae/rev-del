@@ -16,7 +16,7 @@ revDel({
 	oldManifest: 'rev-manifest.json',
 	newManifest: { /* a manifest */ },
 	suppress: true, 
-	deleteMapExtensions: true
+	deleteMapExtensions: false
 }, function (err, filesDeleted) {
 	// ...
 });
