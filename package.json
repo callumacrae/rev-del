@@ -26,13 +26,13 @@
   },
   "homepage": "https://github.com/callumacrae/rev-del",
   "dependencies": {
-    "del": "^1.1.1",
-    "lodash": ">=3.1 <5",
-    "mocha": "^2.1.0",
-    "should": "^4.6.5",
-    "through2": "^0.6.3"
+    "del": "^3.0.0",
+    "lodash": "^4.17.11",
+    "mocha": "^5.2.0",
+    "should": "^13.2.3",
+    "through2": "^3.0.0"
   },
   "devDependencies": {
-    "vinyl": "^0.4.6"
+    "vinyl": "^2.2.0"
   }
 }
