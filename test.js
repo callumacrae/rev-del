@@ -1,32 +1,32 @@
 'use strict';
 
-var path = require('path');
-var _ = require('lodash');
-var File = require('vinyl');
-var revDel = require('./');
-var should = require('should');
+const path = require('path');
+const _ = require('lodash');
+const File = require('vinyl');
+const revDel = require('./');
+const should = require('should');
 
-var oldManifest = {
+const oldManifest = {
 	'foo.js': 'foo-abc.js',
 	'bar.js': 'bar-abc.js',
 	'hello': 'world'
 };
 
-var newManifest = {
+const newManifest = {
 	'foo.js': 'foo-def.js',
 	'bar.js': 'bar-abc.js',
 	'hello': 'world2'
 };
 
-var manifests = {
+const manifests = {
 	oldManifest: oldManifest,
 	newManifest: newManifest,
-	delFn: function (files, options, cb) {
+	delFn: (files, options, cb) => {
 		cb(null, files);
 	}
 };
 
-it('should work out which files to delete', function (cb) {
+it('should work out which files to delete', (cb) => {
 	revDel(manifests, function (err, files) {
 		files.length.should.equal(2);
 		files.should.eql(['foo-abc.js', 'world']);
@@ -35,8 +35,8 @@ it('should work out which files to delete', function (cb) {
 	});
 });
 
-it('should read from JSON files', function (cb) {
-	var manifestsString = _.clone(manifests);
+it('should read from JSON files', (cb) => {
+	const manifestsString = _.clone(manifests);
 	manifestsString.oldManifest = 'test.json';
 
 	revDel(manifestsString, function (err, files) {
@@ -47,15 +47,15 @@ it('should read from JSON files', function (cb) {
 	});
 });
 
-it('should handle streams', function (cb) {
-	var stream = revDel({
+it('should handle streams', (cb) => {
+	const stream = revDel({
 		oldManifest: 'test.json',
 		delFn: function (files, options, cb) {
 			cb(null, files);
 		}
 	});
 
-	stream.on('data', function (file) {
+	stream.on('data', (file) => {
 		file.revDeleted.length.should.equal(2);
 		file.revDeleted.should.eql(['foo-abc.js', 'world']);
 
@@ -68,14 +68,14 @@ it('should handle streams', function (cb) {
 	stream.end();
 });
 
-it('should get the file path from gulp-rev', function (cb) {
-	var stream = revDel({
+it('should get the file path from gulp-rev', (cb) => {
+	const stream = revDel({
 		delFn: function (files, options, cb) {
 			cb(null, files);
 		}
 	});
 
-	stream.on('data', function (file) {
+	stream.on('data', (file) => {
 		file.revDeleted.length.should.equal(2);
 		file.revDeleted.should.eql(['foo-abc.js', 'world']);
 
@@ -89,28 +89,28 @@ it('should get the file path from gulp-rev', function (cb) {
 	stream.end();
 });
 
-it('should not explode when rev-manifest.json is not found', function (cb) {
-	var manifestsString = _.clone(manifests);
+it('should not explode when rev-manifest.json is not found', (cb) => {
+	const manifestsString = _.clone(manifests);
 	manifestsString.oldManifest = 'doesntexist.json';
 
 	// We're literally just testing that it doesn't throw an error
-	revDel(manifestsString, function () {
+	revDel(manifestsString, () => {
 		cb();
 	});
 });
 
-it('should explode when suppress is set to false says to', function () {
-	var manifestsString = _.clone(manifests);
+it('should explode when suppress is set to false says to', () => {
+	const manifestsString = _.clone(manifests);
 	manifestsString.oldManifest = 'doesntexist.json';
 	manifestsString.suppress = false;
 
-	should.throws(function () {
-		revDel(manifestsString, function () {});
+	should.throws(() => {
+		revDel(manifestsString, () => {});
 	});
 });
 
-it('should accept dest', function (cb) {
-	var stream = revDel({
+it('should accept dest', (cb) => {
+	const stream = revDel({
 		delFn: function (files, options, cb) {
 			cb(null, files);
 		},
@@ -118,7 +118,7 @@ it('should accept dest', function (cb) {
 		oldManifest: 'test.json'
 	});
 
-	stream.on('data', function (file) {
+	stream.on('data', (file) => {
 		file.revDeleted.length.should.equal(2);
 		file.revDeleted.should.eql([path.normalize('test/foo-abc.js'), path.normalize('test/world')]);
 
